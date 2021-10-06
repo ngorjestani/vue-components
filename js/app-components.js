@@ -37,19 +37,19 @@ const LibraryComponent = Vue.component('Library', {
 
 const LibraryItemComponent = Vue.component('LibraryItem', {
     props: {
-        item: LibraryItem,
+        item: Object,
     },
 
     computed: {
         typeOfItem(){
-            return this.item.media.constructor.name;
+            return this.item.constructor.name;
         },
     },
 
     template: `
         <div class="card" :class="item.isAvailable() ? 'border-success' : 'border-warning'">
             <div class="card-body">
-                <component :is="typeOfItem" :item="item.media"></component>
+                <component :is="typeOfItem" :item="item"></component>
             </div>
             <div class="card-footer">
                 <button class="btn btn-secondary" @click="item.checkOut">Check Out</button>

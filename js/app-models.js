@@ -6,21 +6,22 @@
 function LibraryItem(media) {
     const STATUSES = {CHECKED_IN: 'in', CHECKED_OUT: 'out'};
 
+    //Decorate existing objects with LibraryItem functionality
     this.status = STATUSES.CHECKED_IN;
 
-    this.media = media;
-
-    this.checkIn = function () {
+    media.checkIn = function () {
         this.status = STATUSES.CHECKED_IN;
     }
 
-    this.checkOut = function () {
+    media.checkOut = function () {
         this.status = STATUSES.CHECKED_OUT;
     }
 
-    this.isAvailable = function () {
+    media.isAvailable = function () {
         return this.status === STATUSES.CHECKED_IN;
     }
+
+    return media;
 }
 
 /*let book = new LibraryItem('Hop on Pop', 'Childrens', 72);
