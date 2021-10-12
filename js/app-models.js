@@ -2,6 +2,28 @@
 // You can define your models in the 'data' section of each Vue component
 // or define them separately if they might be used by multiple components.
 
+function LibraryCollection() {
+    //extend array ES6+
+    this.__proto__ = [];
+
+    this.addItem = function(item){
+        this.push(new LibraryItem(item));
+
+        return this;
+    }
+
+    this.checkedOutItems = function() {
+        return this.filter(function(item){
+            return !item.isAvailable();
+        });
+    }
+
+}
+
+//pre ES6
+// LibraryCollection.prototype = [];
+// LibraryCollection.prototype.constructor = LibraryCollection;
+
 // Models are usually prototypes (similar to classes if you are familiar with those)
 function LibraryItem(media) {
     const STATUSES = {CHECKED_IN: 'in', CHECKED_OUT: 'out'};

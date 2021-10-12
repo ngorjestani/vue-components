@@ -2,12 +2,11 @@ const LibraryComponent = Vue.component('Library', {
     // this function is run AFTER the props have been passed in
     data() {
         return {
-            library: [
-                new LibraryItem(new Book('Hop on Pop', 'Childrens', 72)),
-                new LibraryItem(new Movie('Star Wars', 'Space Opera', 345)),
-                new LibraryItem(new Book('Wild Thing', 'Teen', 150)),
-                new LibraryItem(new Movie('Scarface', 'Drama', 117)),
-            ],
+            library: new LibraryCollection()
+                .addItem(new Book('Hop on Pop', 'Childrens', 72))
+                .addItem(new Movie('Star Wars', 'Space Opera', 345))
+                .addItem(new Book('Wild Thing', 'Teen', 150))
+                .addItem(new Movie('Scarface', 'Drama', 117))
         }
     },
 
@@ -32,6 +31,7 @@ const LibraryComponent = Vue.component('Library', {
 <!--                </div>-->
 <!--            </div>-->
             <library-item v-for="item in library" :item="item"></library-item>
+            <p>Checked out: {{library.checkedOutItems().length}}</p>
         </div>`,
 });
 
@@ -41,7 +41,7 @@ const LibraryItemComponent = Vue.component('LibraryItem', {
     },
 
     computed: {
-        typeOfItem(){
+        typeOfItem() {
             return this.item.constructor.name;
         },
     },
