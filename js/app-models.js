@@ -3,29 +3,44 @@
 // or define them separately if they might be used by multiple components.
 
 function LibraryCollection() {
-    //extend array ES6+
-    this.__proto__ = [];
+    let arr = [];
 
-    this.addItem = function(item){
-        this.push(new LibraryItem(item));
+    arr.addItem = function(item){
+        this.push(
+            new LibraryItem(
+                item,
+                // (item) => this.removeItem(item)
+                ((collection) => function(){
+                    //The library item will call this function
+                    collection.removeItem(this)
+                })(this)
+            )
+        );
 
         return this;
     }
 
-    this.checkedOutItems = function() {
+    arr.checkedOutItems = function() {
         return this.filter(function(item){
             return !item.isAvailable();
         });
     }
 
+    arr.removeItem = function(item){
+        this.splice(this.indexOf(item), 1);
+
+        return this;
+    }
+
+    return arr;
 }
 
 //pre ES6
-// LibraryCollection.prototype = [];
-// LibraryCollection.prototype.constructor = LibraryCollection;
+LibraryCollection.prototype = [];
+LibraryCollection.prototype.constructor = LibraryCollection;
 
 // Models are usually prototypes (similar to classes if you are familiar with those)
-function LibraryItem(media) {
+function LibraryItem(media, removeMethod) {
     const STATUSES = {CHECKED_IN: 'in', CHECKED_OUT: 'out'};
 
     //Decorate existing objects with LibraryItem functionality
@@ -42,6 +57,12 @@ function LibraryItem(media) {
     media.isAvailable = function () {
         return this.status === STATUSES.CHECKED_IN;
     }
+
+    // media.remove = function(){
+    //     removeMethod(this);
+    // }
+
+    media.remove = removeMethod || function(){};
 
     return media;
 }

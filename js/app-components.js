@@ -52,8 +52,9 @@ const LibraryItemComponent = Vue.component('LibraryItem', {
                 <component :is="typeOfItem" :item="item"></component>
             </div>
             <div class="card-footer">
-                <button class="btn btn-secondary" @click="item.checkOut">Check Out</button>
-                <button class="btn btn-secondary" @click="item.checkIn">Check In</button>
+                <button class="btn btn-secondary" v-if="!item.isAvailable" @click="item.checkOut">Check Out</button>
+                <button class="btn btn-secondary" v-else @click="item.checkIn">Check In</button>
+                <button class="btn btn-secondary" v-else @click="item.removeItem">Check In</button>
             </div>
         </div>`,
 });
